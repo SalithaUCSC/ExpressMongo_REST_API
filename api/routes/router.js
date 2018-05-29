@@ -40,8 +40,6 @@ router.post('/posts/add', function (req, res) {
             res.json({msg: "success"})
         }
     });
-
-
 });
 
 // Edit post
