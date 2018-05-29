@@ -1,0 +1,15 @@
+[
+    {
+        "_id":"5b0dc3778ac1e1c565145013",
+        "title":"Mean Stack Guide",
+        "author":"Salitha Chathuranga",
+        "description":"This is Mean Stack Guide",
+        "slug":"mean-stack-guide"},
+    {
+        "_id":"5b0dcade3367820688f0ad90",
+        "title":"Angular Guide",
+        "author":"Salitha Chathuranga",
+        "description":"This is the Angular guide",
+        "slug":"angular-guide"
+    }
+]
