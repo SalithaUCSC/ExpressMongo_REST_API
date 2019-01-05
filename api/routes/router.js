@@ -2,64 +2,84 @@ const express = require('express');
 // Initialize app
 const router = express.Router();
 // Load models
-let Post = require('../models/post');
+const User = require('../models/User');
 
-router.get('/posts', function (req, res) {
-    let posts = Post.find({}, function(err, posts){
+// GET ALL users
+router.get('/users', function(req, res){
+    let users = User.find({}, function(err, users){
         if(err){
             console.log(err);
+            res.json({msg: "failed"})
         }
         else {
-            res.json(posts);
+            res.json(users);
         }
+    })
+})
+
+// GET SINGLE user
+router.get('/users/:id', function(req, res){
+    User.findById(req.params.id, function(err, user){
+        res.json(user);
     });
 });
 
-// Load single post view
-router.get('/posts/:id', function (req, res) {
-    Post.findById(req.params.id, function(err, post){
-        res.json(post);
-    });
-});
+// ADD user
+router.post('/users/add', function (req, res) {
 
-// Add post
-router.post('/posts/add', function (req, res) {
+    let user = new User();
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.phone = req.body.phone;
+    user.job = req.body.job;
+    user.company = req.body.company;
+    user.age = req.body.age;
+    user.city = req.body.city;
 
-    let post = new Post();
-    post.title = req.body.title;
-    post.author = req.body.author;
-    post.description = req.body.description;
-    post.slug = req.body.slug;
-
-    post.save(function(err){
+    user.save(function(err){
         if(err){
             console.log(err);
             res.json({msg: "failed"})
         }
         else{
-            res.json({msg: "success"})
+            res.json(user)
         }
     });
 });
 
-// Edit post
-router.get('/posts/edit/:id', function (req, res) {
-    Post.findById(req.params.id, function(err, post){
-        res.json(post);
+// UPDATE user
+router.post('/users/update/:id', function (req, res) {
+
+    User.findById(req.params.id, function(err, user) {
+        if (!user)
+            res.status(404).send("data is not found");
+        else {
+            user.name = req.body.name;
+            user.email = req.body.email;
+            user.phone = req.body.phone;
+            user.job = req.body.job;
+            user.company = req.body.company;
+            user.age = req.body.age;
+            user.city = req.body.city;
+    
+            user.save().then(user => {
+                res.json({msg: "success"})
+            })
+            .catch(err => {
+                res.json({msg: "falied"});
+            });
+        }
     });
 });
-// Update post
-router.post('/posts/update/:id', function (req, res) {
-    let post = {};
-    post.title = req.body.title;
-    post.author = req.body.author;
-    post.description = req.body.description;
-    
+
+// DELETE user
+router.post('/users/delete/:id', function (req, res) {
     let query = { _id: req.params.id }
 
-    Post.update(query, post, function(err){
+    User.findByIdAndDelete(query, function(err){
         if(err){
             console.log(err);
+            res.json({msg: "failed"})
             return;
         }
         else{
