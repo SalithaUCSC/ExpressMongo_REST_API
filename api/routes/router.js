@@ -42,7 +42,7 @@ router.post('/users/add', function (req, res) {
             res.json({msg: "failed"})
         }
         else{
-            res.json(user)
+            res.json({msg: "success"})
         }
     });
 });
